@@ -1081,17 +1081,27 @@ textarea::placeholder {
   border-radius: var(--r-sm);
 }
 
-/* ════════════════════════════════════════════
-   RESPONSIVE BREAKPOINTS
-════════════════════════════════════════════ */
 
-/* Tablet */
+/* ══════════════════════════════════════════
+   RESPONSIVE — DO NOT EDIT ABOVE THIS LINE
+══════════════════════════════════════════ */
+
+/* Base overflow fix */
+.tab-nav { flex-wrap: wrap; }
+.tab-btn { white-space: normal; text-align: center; }
+.mode-bar { flex-wrap: wrap; }
+.btn-row { flex-wrap: wrap; }
+.hero-pills { flex-wrap: wrap; }
+.toggles { flex-wrap: wrap; }
+.header-nav { flex-wrap: wrap; }
+
+/* ── 1024px: Tablet ── */
 @media (max-width: 1024px) {
   .workspace { padding: 20px; }
-  .tab-btn { padding: 11px 20px; font-size: .8rem; }
+  .tab-btn { padding: 11px 18px; font-size: .82rem; }
 }
 
-/* ≤ 900px: stack panels */
+/* ── 900px: Stack panels ── */
 @media (max-width: 900px) {
   .tab-panel.active { grid-template-columns: 1fr; }
   .site-header { padding: 0 20px; }
@@ -1099,39 +1109,72 @@ textarea::placeholder {
   .site-footer { flex-direction: column; gap: 10px; text-align: center; padding: 16px 20px; }
 }
 
-/* ≤ 768px: compact tabs */
+/* ── 768px: Compact ── */
 @media (max-width: 768px) {
-  .tab-btn .tab-icon { font-size: .9rem; }
-  .tab-btn { padding: 10px 14px; font-size: .76rem; gap: 5px; }
-  .workspace { padding: 14px; }
-  .card-body { padding: 14px; gap: 11px; }
-  textarea { min-height: 250px; }
-  .preview-content, .code-content { min-height: 240px; }
-  .dup-stat-row { flex-wrap: wrap; }
-  .ds { flex: 1 1 45%; }
   .header-nav { display: none; }
   .hamburger { display: flex; }
   .badge { display: none; }
+
+  .tab-nav { justify-content: stretch; padding: 0 12px; gap: 6px; }
+  .tab-btn { flex: 1; padding: 10px 8px; font-size: .78rem; gap: 5px; justify-content: center; }
+
+  .workspace { padding: 14px; }
+  .card-body { padding: 14px; gap: 11px; }
+  textarea { min-height: 220px; }
+  .output-box { min-height: 220px; }
+  .preview-content, .code-content { min-height: 220px; }
+
+  .mode-bar { display: grid; grid-template-columns: 1fr 1fr; }
+  .mode-btn { border-right: none; border-bottom: 1px solid var(--border); }
+  .mode-btn:nth-child(odd) { border-right: 1px solid var(--border); }
+  .mode-btn:nth-last-child(-n+2) { border-bottom: none; }
+
+  .dup-stat-row { flex-wrap: wrap; }
+  .ds { flex: 1 1 45%; }
 }
 
-/* ≤ 520px: mobile */
+/* ── 520px: Mobile ── */
 @media (max-width: 520px) {
-  .hero h1 { font-size: 1.45rem; }
-  .hero-desc { font-size: .82rem; }
-  .tab-btn { padding: 9px 10px; font-size: .72rem; }
-  .tab-btn span:not(.tab-icon) { display: none; }
-  .mode-btn .m-label { display: none; }
-  .mode-btn { padding: 9px 4px; }
-  .btn-row { flex-wrap: wrap; }
-  .btn-primary { flex: 1 1 100%; }
-  .stats-bar { flex-wrap: wrap; }
-  .stat-item { flex: 1 1 48%; border-bottom: 1px solid var(--border); }
-  .mini-stats { flex-wrap: wrap; }
-  .ms { flex: 1 1 40%; }
-  .dup-stat-row { flex-direction: column; }
+  .hero h1 { font-size: 1.3rem; }
+  .hero-desc { font-size: .8rem; }
   .hero-pills { display: none; }
+
+  .tab-nav { padding: 0 8px; gap: 4px; }
+  .tab-btn { padding: 9px 6px; font-size: .72rem; }
+  .tab-btn .tab-icon { font-size: .85rem; }
+
+  .mode-btn .m-label { font-size: .58rem; }
+
+  .btn-row { flex-direction: column; }
+  .btn-row .btn { width: 100%; justify-content: center; }
+  .btn-primary { width: 100%; }
+
+  .stats-bar { display: grid; grid-template-columns: 1fr 1fr; }
+  .stat-item { border-right: 1px solid var(--border) !important; border-bottom: 1px solid var(--border); }
+  .stat-item:nth-child(even) { border-right: none !important; }
+
+  .mini-stats { flex-wrap: wrap; }
+  .ms { flex: 1 1 calc(50% - 4px); }
+
+  .dup-stat-row { flex-direction: column; }
+
+  .toggles { gap: 5px; }
+  .tog { font-size: .68rem; padding: 4px 10px; }
+
   .site-footer .footer-links { display: none; }
+
+  .card-header { padding: 12px 14px; }
+  .card-header h2 { font-size: .85rem; }
+  .card-body { padding: 12px; gap: 10px; }
 }
+
+/* ── 380px: Small phones ── */
+@media (max-width: 380px) {
+  .tab-btn span:not(.tab-icon) { display: none; }
+  .tab-btn { padding: 9px 12px; }
+  .hero h1 { font-size: 1.15rem; }
+}
+
 
 /* ════════════════════════════════════════════
    FORMATTER OUTPUT INLINE STYLES
@@ -1160,6 +1203,28 @@ textarea::placeholder {
 </style>
 </head>
 <body>
+
+<div id="loginWall">
+  <div class="login-box">
+    <div class="login-logo">
+      <div class="login-logo-mark">A</div>
+      <div class="login-logo-text">Arivu<span>Pro</span></div>
+    </div>
+    <div class="login-title">Welcome back</div>
+    <div class="login-sub">Sign in to access internal tools</div>
+    <div class="login-field">
+      <label>Email</label>
+      <input type="email" id="loginEmail" placeholder="you@arivupro.com" autocomplete="email"/>
+    </div>
+    <div class="login-field">
+      <label>Password</label>
+      <input type="password" id="loginPass" placeholder="••••••••••" autocomplete="current-password"/>
+    </div>
+    <button class="login-btn" onclick="doLogin()">Sign In →</button>
+    <div class="login-error" id="loginErr">Invalid email or password. Please try again.</div>
+  </div>
+</div>
+
 
 <!-- ══════════════════════════════════════
      HEADER
@@ -2242,5 +2307,43 @@ function clearDup() {
 }
 
 </script>
+
+<script>
+  (function() {
+    const USERS = {
+      'hello.lingeshdev@gmail.com': 'arivutools123',
+      'videoedit@arivupro.com':     'arivutools123',
+      'testseries@arivupro.com':    'arivutools123'
+    };
+    const SESSION_KEY = 'ap_auth';
+
+    // Check existing session
+    if (sessionStorage.getItem(SESSION_KEY) === '1') {
+      document.getElementById('loginWall').style.display = 'none';
+    }
+
+    window.doLogin = function() {
+      const email = document.getElementById('loginEmail').value.trim().toLowerCase();
+      const pass  = document.getElementById('loginPass').value;
+      const err   = document.getElementById('loginErr');
+
+      if (USERS[email] && USERS[email] === pass) {
+        sessionStorage.setItem(SESSION_KEY, '1');
+        document.getElementById('loginWall').style.display = 'none';
+        err.classList.remove('show');
+      } else {
+        err.classList.add('show');
+        document.getElementById('loginPass').value = '';
+        document.getElementById('loginPass').focus();
+      }
+    };
+
+    // Allow Enter key to submit
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') doLogin();
+    });
+  })();
+</script>
+
 </body>
 </html>
