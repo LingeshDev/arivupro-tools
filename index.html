@@ -543,5 +543,28 @@
   netlifyIdentity.on('init', user => { if (!user) netlifyIdentity.open(); });
   netlifyIdentity.on('logout', () => netlifyIdentity.open());
 </script>
+<script>
+  document.body.style.display = "none";
+
+  netlifyIdentity.on("init", user => {
+    if (!user) {
+      netlifyIdentity.open("login");
+    } else {
+      document.body.style.display = "block";
+    }
+  });
+
+  netlifyIdentity.on("login", () => {
+    document.body.style.display = "block";
+    netlifyIdentity.close();
+  });
+
+  netlifyIdentity.on("logout", () => {
+    document.body.style.display = "none";
+    netlifyIdentity.open();
+  });
+
+  netlifyIdentity.init();
+</script>
 </body>
 </html>
