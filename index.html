@@ -7,6 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Fraunces:ital,opsz,wght@0,9..144,700;0,9..144,800;1,9..144,700&display=swap" rel="stylesheet"/>
+  <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -538,6 +539,9 @@
     <a href="ArivuPro_Learnyst_Exporter.html">HTML Exporter</a>
   </div>
 </footer>
-
+<script>
+  netlifyIdentity.on('init', user => { if (!user) netlifyIdentity.open(); });
+  netlifyIdentity.on('logout', () => netlifyIdentity.open());
+</script>
 </body>
 </html>
