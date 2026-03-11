@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ArivuPro · Internal Tools</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Fraunces:ital,opsz,wght@0,9..144,700;0,9..144,800;1,9..144,700&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --g950: #021a0c;
+      --g900: #052e16;
+      --g800: #14532d;
+      --g700: #15803d;
+      --g600: #16a34a;
+      --g500: #22c55e;
+      --g400: #4ade80;
+      --g300: #86efac;
+      --g200: #bbf7d0;
+      --g100: #dcfce7;
+      --g50:  #f0fdf4;
+      --white: #ffffff;
+      --ink: #0f1f13;
+      --muted: #6b7280;
+      --border: #d1fae5;
+      --bg: #f3fef6;
+      --font-body: 'Plus Jakarta Sans', sans-serif;
+      --font-display: 'Fraunces', serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--bg);
+      color: var(--ink);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+    }
+
+    /* ── HEADER ── */
+    header {
+      background: var(--white);
+      border-bottom: 2px solid var(--g100);
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 32px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 16px rgba(5,46,22,.06);
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      text-decoration: none;
+    }
+
+    .logo-mark {
+      width: 40px; height: 40px;
+      background: linear-gradient(135deg, var(--g700), var(--g500));
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--font-display);
+      font-weight: 800; font-size: 1.1rem;
+      color: #fff;
+      box-shadow: 0 3px 10px rgba(22,163,74,.3);
+      flex-shrink: 0;
+    }
+
+    .logo-text {
+      font-family: var(--font-display);
+      font-weight: 800; font-size: 1.18rem;
+      color: var(--g800);
+      letter-spacing: -.025em;
+      line-height: 1;
+    }
+    .logo-text span { color: var(--g600); }
+    .logo-sub { font-size: .66rem; font-weight: 600; color: var(--muted); margin-top: 2px; }
+
+    .header-badge {
+      background: var(--g100);
+      color: var(--g700);
+      font-size: .62rem; font-weight: 800;
+      letter-spacing: .1em; text-transform: uppercase;
+      padding: 5px 13px; border-radius: 20px;
+      border: 1.5px solid var(--border);
+    }
+
+    /* ── HERO ── */
+    .hero {
+      background: linear-gradient(135deg, var(--g950) 0%, var(--g900) 50%, var(--g800) 100%);
+      padding: 80px 32px 90px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background:
+        radial-gradient(ellipse 60% 70% at 10% 50%, rgba(74,222,128,.07) 0%, transparent 55%),
+        radial-gradient(ellipse 50% 60% at 90% 20%, rgba(34,197,94,.08) 0%, transparent 50%),
+        radial-gradient(ellipse 40% 40% at 50% 100%, rgba(74,222,128,.05) 0%, transparent 50%);
+      pointer-events: none;
+    }
+
+    /* Decorative grid lines */
+    .hero::after {
+      content: '';
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(74,222,128,.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(74,222,128,.04) 1px, transparent 1px);
+      background-size: 48px 48px;
+      pointer-events: none;
+    }
+
+    .hero-inner { position: relative; z-index: 1; max-width: 680px; margin: 0 auto; }
+
+    .eyebrow {
+      display: inline-flex; align-items: center; gap: 7px;
+      background: rgba(74,222,128,.1);
+      border: 1px solid rgba(74,222,128,.22);
+      color: var(--g400);
+      font-size: .72rem; font-weight: 700;
+      letter-spacing: .12em; text-transform: uppercase;
+      padding: 6px 16px; border-radius: 20px;
+      margin-bottom: 20px;
+      animation: fadeUp .6s ease both;
+    }
+
+    .hero h1 {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 5vw, 3.2rem);
+      font-weight: 800; color: #fff;
+      letter-spacing: -.04em; line-height: 1.08;
+      margin-bottom: 18px;
+      animation: fadeUp .6s .1s ease both;
+    }
+
+    .hero h1 em { color: var(--g400); font-style: italic; }
+
+    .hero p {
+      color: rgba(255,255,255,.48);
+      font-size: 1rem; line-height: 1.7;
+      max-width: 480px; margin: 0 auto 36px;
+      animation: fadeUp .6s .2s ease both;
+    }
+
+    /* ── TOOL CARDS ── */
+    .cards-wrap {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+      max-width: 760px;
+      margin: 0 auto;
+      animation: fadeUp .6s .3s ease both;
+    }
+
+    .tool-card {
+      background: rgba(255,255,255,.06);
+      border: 1.5px solid rgba(255,255,255,.1);
+      border-radius: 16px;
+      padding: 26px 24px;
+      text-decoration: none;
+      text-align: left;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      transition: all .25s ease;
+      backdrop-filter: blur(10px);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .tool-card::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(135deg, rgba(74,222,128,.06) 0%, transparent 60%);
+      opacity: 0;
+      transition: opacity .25s;
+    }
+
+    .tool-card:hover {
+      background: rgba(255,255,255,.1);
+      border-color: rgba(74,222,128,.35);
+      transform: translateY(-3px);
+      box-shadow: 0 16px 40px rgba(0,0,0,.25);
+    }
+
+    .tool-card:hover::before { opacity: 1; }
+
+    .tool-card:hover .card-arrow { transform: translateX(4px); opacity: 1; }
+
+    .card-top { display: flex; align-items: center; justify-content: space-between; }
+
+    .card-emoji {
+      width: 48px; height: 48px;
+      background: rgba(74,222,128,.12);
+      border: 1.5px solid rgba(74,222,128,.2);
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.4rem;
+    }
+
+    .card-arrow {
+      color: var(--g400);
+      font-size: 1.2rem;
+      opacity: .4;
+      transition: all .25s ease;
+    }
+
+    .card-num {
+      font-family: var(--font-display);
+      font-size: .7rem; font-weight: 700;
+      color: var(--g400);
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      opacity: .6;
+    }
+
+    .tool-card h2 {
+      font-family: var(--font-display);
+      font-weight: 700; font-size: 1.15rem;
+      color: #fff; letter-spacing: -.02em; line-height: 1.2;
+    }
+
+    .tool-card p {
+      font-size: .82rem; color: rgba(255,255,255,.42);
+      line-height: 1.6; margin: 0;
+    }
+
+    .card-tags {
+      display: flex; flex-wrap: wrap; gap: 5px;
+      margin-top: auto; padding-top: 4px;
+    }
+
+    .tag {
+      background: rgba(74,222,128,.1);
+      border: 1px solid rgba(74,222,128,.15);
+      color: var(--g300);
+      font-size: .62rem; font-weight: 700;
+      padding: 3px 9px; border-radius: 8px;
+      letter-spacing: .04em;
+    }
+
+    /* ── FEATURES SECTION ── */
+    .features {
+      padding: 64px 32px;
+      max-width: 900px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    .section-label {
+      text-align: center;
+      font-size: .7rem; font-weight: 800;
+      letter-spacing: .14em; text-transform: uppercase;
+      color: var(--g600); margin-bottom: 10px;
+    }
+
+    .section-title {
+      font-family: var(--font-display);
+      font-size: clamp(1.4rem, 3vw, 2rem);
+      font-weight: 800; color: var(--g900);
+      text-align: center; letter-spacing: -.03em;
+      margin-bottom: 48px; line-height: 1.2;
+    }
+
+    .feat-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+
+    .feat {
+      background: var(--white);
+      border: 1.5px solid var(--border);
+      border-radius: 14px;
+      padding: 22px 20px;
+      transition: all .2s;
+    }
+
+    .feat:hover {
+      border-color: var(--g300);
+      box-shadow: 0 6px 24px rgba(5,46,22,.08);
+      transform: translateY(-2px);
+    }
+
+    .feat-icon {
+      width: 40px; height: 40px;
+      background: var(--g50);
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem;
+      margin-bottom: 12px;
+    }
+
+    .feat h3 {
+      font-weight: 700; font-size: .88rem;
+      color: var(--g900); margin-bottom: 5px;
+    }
+
+    .feat p {
+      font-size: .78rem; color: var(--muted);
+      line-height: 1.6;
+    }
+
+    /* ── CTA ── */
+    .cta-section {
+      background: linear-gradient(135deg, var(--g900), var(--g800));
+      margin: 0 32px 48px;
+      border-radius: 20px;
+      padding: 48px 32px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cta-section::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse 60% 80% at 50% 100%, rgba(74,222,128,.08) 0%, transparent 60%);
+      pointer-events: none;
+    }
+
+    .cta-section h2 {
+      font-family: var(--font-display);
+      font-size: clamp(1.4rem, 3vw, 1.9rem);
+      font-weight: 800; color: #fff;
+      letter-spacing: -.03em; margin-bottom: 10px;
+      position: relative;
+    }
+
+    .cta-section p {
+      color: rgba(255,255,255,.45);
+      font-size: .88rem; margin-bottom: 28px;
+      position: relative;
+    }
+
+    .cta-buttons {
+      display: flex; gap: 12px; justify-content: center;
+      flex-wrap: wrap; position: relative;
+    }
+
+    .btn-cta {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 12px 26px; border-radius: 10px;
+      font-family: var(--font-body);
+      font-weight: 700; font-size: .85rem;
+      text-decoration: none; transition: all .2s;
+      border: none; cursor: pointer;
+    }
+
+    .btn-cta.primary {
+      background: linear-gradient(135deg, var(--g600), var(--g500));
+      color: #fff;
+      box-shadow: 0 4px 18px rgba(22,163,74,.35);
+    }
+    .btn-cta.primary:hover { box-shadow: 0 8px 28px rgba(22,163,74,.5); transform: translateY(-1px); }
+
+    .btn-cta.ghost {
+      background: rgba(255,255,255,.08);
+      border: 1.5px solid rgba(255,255,255,.15);
+      color: rgba(255,255,255,.75);
+    }
+    .btn-cta.ghost:hover { background: rgba(255,255,255,.14); color: #fff; }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--g900);
+      padding: 20px 32px;
+      display: flex; align-items: center; justify-content: space-between;
+      margin-top: auto;
+    }
+
+    .footer-left { font-size: .73rem; color: rgba(255,255,255,.28); }
+    .footer-left strong { color: var(--g400); }
+
+    .footer-links { display: flex; gap: 18px; }
+    .footer-links a {
+      font-size: .72rem; font-weight: 600;
+      color: rgba(255,255,255,.25);
+      text-decoration: none;
+      transition: color .2s;
+    }
+    .footer-links a:hover { color: var(--g400); }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(18px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      header { padding: 0 18px; }
+      .hero { padding: 56px 20px 64px; }
+      .cards-wrap { grid-template-columns: 1fr; gap: 12px; max-width: 440px; }
+      .features { padding: 48px 20px; }
+      .feat-grid { grid-template-columns: 1fr 1fr; }
+      .cta-section { margin: 0 16px 36px; padding: 36px 20px; }
+      footer { padding: 18px 20px; flex-direction: column; gap: 10px; text-align: center; }
+      .footer-links { justify-content: center; }
+    }
+
+    @media (max-width: 480px) {
+      .hero h1 { font-size: 1.7rem; }
+      .hero p { font-size: .88rem; }
+      .feat-grid { grid-template-columns: 1fr; }
+      .header-badge { display: none; }
+      .footer-links { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <a class="logo" href="index.html">
+    <div class="logo-mark">A</div>
+    <div>
+      <div class="logo-text">Arivu<span>Pro</span></div>
+      <div class="logo-sub">Internal Tools</div>
+    </div>
+  </a>
+  <span class="header-badge">Internal Use Only</span>
+</header>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-inner">
+    <div class="eyebrow">⚡ ArivuPro Academy</div>
+    <h1>Your Internal<br/><em>Tool Suite</em></h1>
+    <p>Format questions, detect duplicates, and export Learnyst-ready HTML — built for the ArivuPro content team.</p>
+
+    <div class="cards-wrap">
+
+      <a class="tool-card" href="ArivuPro_Formatter.html">
+        <div class="card-top">
+          <div class="card-emoji">✏️</div>
+          <span class="card-arrow">→</span>
+        </div>
+        <div class="card-num">Tool 01</div>
+        <h2>Question Formatter</h2>
+        <p>Format MCQ, descriptive, paragraph & mixed content. Auto-number, bold, clean output instantly.</p>
+        <div class="card-tags">
+          <span class="tag">MCQ</span>
+          <span class="tag">Descriptive</span>
+          <span class="tag">Duplicate Check</span>
+        </div>
+      </a>
+
+      <a class="tool-card" href="ArivuPro_Learnyst_Exporter.html">
+        <div class="card-top">
+          <div class="card-emoji">🌐</div>
+          <span class="card-arrow">→</span>
+        </div>
+        <div class="card-num">Tool 02</div>
+        <h2>Learnyst HTML Exporter</h2>
+        <p>Convert any content to clean HTML. Preview rendered output and copy directly into Learnyst.</p>
+        <div class="card-tags">
+          <span class="tag">HTML Export</span>
+          <span class="tag">Tables</span>
+          <span class="tag">Learnyst</span>
+        </div>
+      </a>
+
+    </div>
+  </div>
+</div>
+
+<!-- FEATURES -->
+<section class="features">
+  <div class="section-label">What's inside</div>
+  <div class="section-title">Everything your content team needs</div>
+  <div class="feat-grid">
+    <div class="feat">
+      <div class="feat-icon">📝</div>
+      <h3>MCQ Formatter</h3>
+      <p>Auto-detects options, normalises A/B/C/D format, bold questions and green answer highlighting.</p>
+    </div>
+    <div class="feat">
+      <div class="feat-icon">📖</div>
+      <h3>Descriptive Mode</h3>
+      <p>Numbers questions, formats section headings, shows marks badges — perfect for theory papers.</p>
+    </div>
+    <div class="feat">
+      <div class="feat-icon">🔍</div>
+      <h3>Duplicate Checker</h3>
+      <p>Finds exact matches and 70%+ similar questions. Download a clean unique-only question bank.</p>
+    </div>
+    <div class="feat">
+      <div class="feat-icon">🌐</div>
+      <h3>HTML Exporter</h3>
+      <p>Converts any paste into Learnyst-safe HTML. Preview before copying — no formatting lost.</p>
+    </div>
+    <div class="feat">
+      <div class="feat-icon">📊</div>
+      <h3>Table Converter</h3>
+      <p>Markdown tables instantly become styled HTML tables with green headers — ready for Learnyst.</p>
+    </div>
+    <div class="feat">
+      <div class="feat-icon">🔀</div>
+      <h3>Auto-detect Mode</h3>
+      <p>Mixed content? The tool auto-detects MCQ, descriptive, tables and formats each block correctly.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<div class="cta-section">
+  <h2>Ready to format?</h2>
+  <p>Pick a tool and get started — no login, no setup needed.</p>
+  <div class="cta-buttons">
+    <a class="btn-cta primary" href="ArivuPro_Formatter.html">✏️ Open Formatter</a>
+    <a class="btn-cta ghost"   href="ArivuPro_Learnyst_Exporter.html">🌐 Open HTML Exporter</a>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-left">© 2026 <strong>ArivuPro Academy</strong> · Internal Use Only</div>
+  <div class="footer-links">
+    <a href="ArivuPro_Formatter.html">Formatter</a>
+    <a href="ArivuPro_Learnyst_Exporter.html">HTML Exporter</a>
+  </div>
+</footer>
+
+</body>
+</html>
