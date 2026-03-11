@@ -3,8 +3,7 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <meta name="description" content="ArivuPro Test Series Tool — Format MCQs, descriptive and paragraph questions, detect duplicates, export Learnyst-ready HTML."/>
-  <title>ArivuPro · Test Series Tool</title>
+  <title>ArivuPro · Learnyst HTML Exporter</title>
   <style>
 /* ═══════════════════════════════════════════════
    ARIVUPRO TEST SERIES TOOL — GLOBAL STYLESHEET
@@ -1201,6 +1200,108 @@ textarea::placeholder {
 }
 
 </style>
+  <style>
+    /* Exporter-specific overrides */
+    .tab-panel.active { grid-template-columns: 1fr 1fr; }
+
+    /* ── LOGIN WALL ── */
+    #loginWall {
+      position: fixed; inset: 0; z-index: 9999;
+      background: linear-gradient(135deg, #021a0c 0%, #052e16 50%, #14532d 100%);
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+    #loginWall::before {
+      content: '';
+      position: absolute; inset: 0;
+      background-image: linear-gradient(rgba(74,222,128,.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(74,222,128,.04) 1px, transparent 1px);
+      background-size: 48px 48px;
+    }
+    .login-box {
+      background: rgba(255,255,255,.05);
+      border: 1.5px solid rgba(74,222,128,.2);
+      border-radius: 20px;
+      padding: 40px 36px;
+      width: 100%; max-width: 380px;
+      position: relative;
+      backdrop-filter: blur(20px);
+      box-shadow: 0 24px 64px rgba(0,0,0,.4);
+    }
+    .login-logo {
+      display: flex; align-items: center; gap: 11px;
+      margin-bottom: 28px; justify-content: center;
+    }
+    .login-logo-mark {
+      width: 42px; height: 42px;
+      background: linear-gradient(135deg, #15803d, #22c55e);
+      border-radius: 11px;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 800; font-size: 1.1rem; color: #fff;
+      box-shadow: 0 4px 14px rgba(22,163,74,.35);
+    }
+    .login-logo-text {
+      font-family: 'Fraunces', serif;
+      font-weight: 800; font-size: 1.2rem;
+      color: #fff; letter-spacing: -.02em;
+    }
+    .login-logo-text span { color: #4ade80; }
+    .login-title {
+      font-family: 'Fraunces', serif;
+      font-size: 1.4rem; font-weight: 800;
+      color: #fff; text-align: center;
+      letter-spacing: -.03em; margin-bottom: 6px;
+    }
+    .login-sub {
+      font-size: .78rem; color: rgba(255,255,255,.35);
+      text-align: center; margin-bottom: 28px;
+    }
+    .login-field { margin-bottom: 14px; }
+    .login-field label {
+      display: block; font-size: .72rem; font-weight: 700;
+      color: rgba(255,255,255,.45); margin-bottom: 6px;
+      letter-spacing: .05em; text-transform: uppercase;
+    }
+    .login-field input {
+      width: 100%; padding: 11px 14px;
+      background: rgba(255,255,255,.07);
+      border: 1.5px solid rgba(255,255,255,.1);
+      border-radius: 10px; color: #fff;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: .88rem; outline: none;
+      transition: border-color .2s, background .2s;
+    }
+    .login-field input::placeholder { color: rgba(255,255,255,.25); }
+    .login-field input:focus {
+      border-color: rgba(74,222,128,.5);
+      background: rgba(255,255,255,.1);
+    }
+    .login-btn {
+      width: 100%; padding: 13px;
+      background: linear-gradient(135deg, #15803d, #16a34a);
+      border: none; border-radius: 10px;
+      color: #fff; font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 700; font-size: .9rem;
+      cursor: pointer; margin-top: 6px;
+      box-shadow: 0 4px 18px rgba(22,163,74,.35);
+      transition: all .2s;
+    }
+    .login-btn:hover { box-shadow: 0 8px 28px rgba(22,163,74,.5); transform: translateY(-1px); }
+    .login-btn:active { transform: scale(.98); }
+    .login-error {
+      background: rgba(220,38,38,.15);
+      border: 1px solid rgba(220,38,38,.3);
+      color: #fca5a5; font-size: .78rem; font-weight: 600;
+      padding: 9px 13px; border-radius: 8px;
+      margin-top: 12px; text-align: center;
+      display: none;
+    }
+    .login-error.show { display: block; }
+    @media (max-width: 420px) {
+      .login-box { padding: 30px 22px; margin: 16px; }
+    }
+
+  </style>
 </head>
 <body>
 
@@ -1226,83 +1327,63 @@ textarea::placeholder {
 </div>
 
 
-<!-- ══════════════════════════════════════
-     HEADER
-══════════════════════════════════════ -->
+<!-- HEADER -->
 <header class="site-header">
   <a class="logo" href="ArivuPro_Formatter.html">
-    <!-- LOGO SLOT: replace .logo-mark div with <img src="assets/logo.png" alt="ArivuPro"> -->
     <div class="logo-mark">A</div>
     <div>
       <div class="logo-text">Arivu<span class="accent">Pro</span></div>
       <div class="logo-sub">Test Series Tool</div>
     </div>
   </a>
-
   <nav class="header-nav">
-    <a class="nav-link active" href="ArivuPro_Formatter.html">✏️ Formatter</a>
-    <a class="nav-link" href="ArivuPro_Learnyst_Exporter.html">🌐 HTML Exporter</a>
+    <a class="nav-link" href="ArivuPro_Formatter.html">✏️ Formatter</a>
+    <a class="nav-link active" href="ArivuPro_Learnyst_Exporter.html">🌐 HTML Exporter</a>
     <span class="badge">Internal</span>
   </nav>
-
   <button class="hamburger" onclick="openMobileNav()" aria-label="Menu">
     <span></span><span></span><span></span>
   </button>
 </header>
 
-<!-- Mobile Nav Overlay -->
+<!-- Mobile Nav -->
 <div class="mobile-nav" id="mobileNav">
   <div class="mobile-nav-panel">
     <button class="mobile-nav-close" onclick="closeMobileNav()">✕</button>
-    <a class="nav-link active" href="ArivuPro_Formatter.html" onclick="closeMobileNav()">✏️ Question Formatter</a>
-    <a class="nav-link" href="ArivuPro_Learnyst_Exporter.html" onclick="closeMobileNav()">🌐 HTML Exporter</a>
+    <a class="nav-link" href="ArivuPro_Formatter.html" onclick="closeMobileNav()">✏️ Question Formatter</a>
+    <a class="nav-link active" href="ArivuPro_Learnyst_Exporter.html" onclick="closeMobileNav()">🌐 HTML Exporter</a>
   </div>
 </div>
 
-<!-- ══════════════════════════════════════
-     HERO + TABS
-══════════════════════════════════════ -->
+<!-- HERO -->
 <div class="hero">
   <div class="hero-inner">
-    <div class="hero-eyebrow">⚡ Internal Tool Suite</div>
-    <h1>ArivuPro <em>Test Series Tool</em></h1>
-    <p class="hero-desc">Format MCQs, descriptive &amp; paragraph questions · Detect duplicates — all in one place</p>
+    <div class="hero-eyebrow">🌐 Learnyst Ready</div>
+    <h1>HTML <em>Exporter</em></h1>
+    <p class="hero-desc">Paste any content → convert to clean HTML → paste directly into Learnyst's HTML editor</p>
     <div class="hero-pills">
       <span class="pill">📝 MCQ</span>
       <span class="pill">📖 Descriptive</span>
       <span class="pill">📄 Paragraph</span>
       <span class="pill">📊 Tables</span>
-      <span class="pill">🔀 Mixed</span>
+      <span class="pill">🔀 Auto-detect</span>
     </div>
   </div>
-
-  <div class="tab-nav">
-    <button class="tab-btn active" id="tab-formatter" onclick="switchTab('formatter')">
-      <span class="tab-icon">✏️</span> <span>Question Formatter</span>
-    </button>
-    <button class="tab-btn" id="tab-duplicate" onclick="switchTab('duplicate')">
-      <span class="tab-icon">🔍</span> <span>Duplicate Checker</span>
-    </button>
-  </div>
+  <div style="height:24px"></div>
 </div>
 
-<!-- ══════════════════════════════════════
-     STATS BAR
-══════════════════════════════════════ -->
-<div class="stats-bar" id="globalStatsBar">
-  <div class="stat-item"><div class="stat-n dim" id="gQ">—</div><div class="stat-l">Questions</div></div>
-  <div class="stat-item"><div class="stat-n dim" id="gO">—</div><div class="stat-l">Options</div></div>
-  <div class="stat-item"><div class="stat-n dim" id="gA">—</div><div class="stat-l">Answers</div></div>
-  <div class="stat-item"><div class="stat-n dim" id="gL">—</div><div class="stat-l">Lines</div></div>
+<!-- STATS BAR -->
+<div class="stats-bar">
+  <div class="stat-item"><div class="stat-n dim" id="stQ">—</div><div class="stat-l">Questions</div></div>
+  <div class="stat-item"><div class="stat-n dim" id="stO">—</div><div class="stat-l">Options</div></div>
+  <div class="stat-item"><div class="stat-n dim" id="stA">—</div><div class="stat-l">Answers</div></div>
+  <div class="stat-item"><div class="stat-n dim" id="stT">—</div><div class="stat-l">Tables</div></div>
+  <div class="stat-item"><div class="stat-n dim" id="stL">—</div><div class="stat-l">Lines</div></div>
 </div>
 
-<!-- ══════════════════════════════════════
-     WORKSPACE
-══════════════════════════════════════ -->
+<!-- WORKSPACE -->
 <div class="workspace">
-
-  <!-- ══ TAB: FORMATTER ══ -->
-  <div class="tab-panel active" id="panel-formatter">
+  <div class="tab-panel active" id="panel-exporter">
 
     <!-- INPUT CARD -->
     <div class="card">
@@ -1310,67 +1391,76 @@ textarea::placeholder {
         <div class="card-icon">📋</div>
         <div>
           <h2>Paste Your Content</h2>
-          <p>MCQ · Descriptive · Paragraph · Mixed — all formats handled</p>
+          <p>Any format — MCQ, descriptive, tables, paragraph, mixed</p>
         </div>
       </div>
       <div class="card-body">
 
-        <!-- MODE BAR -->
+        <!-- MODE -->
         <div class="mode-bar">
-          <button class="mode-btn active" id="fm-mcq"   onclick="setFmtMode('mcq')">
-            <span class="m-icon">📝</span><span class="m-label">MCQ</span>
-          </button>
-          <button class="mode-btn" id="fm-desc"  onclick="setFmtMode('desc')">
-            <span class="m-icon">📖</span><span class="m-label">Descriptive</span>
-          </button>
-          <button class="mode-btn" id="fm-para"  onclick="setFmtMode('para')">
-            <span class="m-icon">📄</span><span class="m-label">Paragraph</span>
-          </button>
-          <button class="mode-btn" id="fm-mixed" onclick="setFmtMode('mixed')">
-            <span class="m-icon">🔀</span><span class="m-label">Mixed</span>
-          </button>
+          <button class="mode-btn active" id="m-auto"  onclick="setMode('auto')"><span class="m-icon">🔀</span><span class="m-label">Auto</span></button>
+          <button class="mode-btn"        id="m-mcq"   onclick="setMode('mcq')"><span class="m-icon">📝</span><span class="m-label">MCQ</span></button>
+          <button class="mode-btn"        id="m-desc"  onclick="setMode('desc')"><span class="m-icon">📖</span><span class="m-label">Descriptive</span></button>
+          <button class="mode-btn"        id="m-para"  onclick="setMode('para')"><span class="m-icon">📄</span><span class="m-label">Paragraph</span></button>
+          <button class="mode-btn"        id="m-table" onclick="setMode('table')"><span class="m-icon">📊</span><span class="m-label">Table</span></button>
         </div>
 
-        <!-- MCQ TOGGLES -->
-        <div class="toggles" id="mcqToggles">
-          <label class="tog on"  id="tBQ"  onclick="togFmt(this,'boldQ')"><div class="tog-dot"></div>Bold Questions</label>
-          <label class="tog on"  id="tBA"  onclick="togFmt(this,'boldA')"><div class="tog-dot"></div>Bold Answers</label>
-          <label class="tog"     id="tGA"  onclick="togFmt(this,'greenA')"><div class="tog-dot"></div>Green Answers</label>
-          <label class="tog on"  id="tAN"  onclick="togFmt(this,'autoNum')"><div class="tog-dot"></div>Auto Number</label>
-        </div>
-
-        <!-- DESC TOGGLES -->
-        <div class="toggles" id="descToggles" style="display:none">
-          <label class="tog on"  id="tDN"  onclick="togFmt(this,'dNum')"><div class="tog-dot"></div>Number Questions</label>
-          <label class="tog on"  id="tDH"  onclick="togFmt(this,'dHeading')"><div class="tog-dot"></div>Bold Headings</label>
-          <label class="tog"     id="tDM"  onclick="togFmt(this,'dMarks')"><div class="tog-dot"></div>Show Marks</label>
+        <!-- TOGGLES -->
+        <div class="toggles">
+          <label class="tog on"  id="tBQ" onclick="togOpt(this,'boldQ')"><div class="tog-dot"></div>Bold Questions</label>
+          <label class="tog on"  id="tSA" onclick="togOpt(this,'showAns')"><div class="tog-dot"></div>Show Answer</label>
+          <label class="tog on"  id="tSE" onclick="togOpt(this,'showExp')"><div class="tog-dot"></div>Show Explanation</label>
+          <label class="tog"     id="tSM" onclick="togOpt(this,'showMarks')"><div class="tog-dot"></div>Show Marks</label>
+          <label class="tog on"  id="tAN" onclick="togOpt(this,'autoNum')"><div class="tog-dot"></div>Auto Number</label>
         </div>
 
         <div class="textarea-wrap">
-          <textarea id="fmtInput" spellcheck="false" placeholder="Paste any format here…
+          <textarea id="mainInput" spellcheck="false" placeholder="Paste anything here — MCQ, descriptive, tables, paragraphs…
 
-── MCQ ──
-1. What is depreciation?
-A) Increase in asset value
-B) Reduction in value over time
-C) Asset purchase
-D) Asset disposal
-Answer: B
-Explanation: Depreciation allocates cost over useful life.
+Section A: Multiple Choice
 
-── Descriptive ──
+1. Under IAS 2, inventories should be valued at:
+A) Cost only
+B) Net realisable value only
+C) Lower of cost and net realisable value
+D) Higher of cost and net realisable value
+Answer: C
+Explanation: IAS 2 requires the lower of cost and NRV.
+
+Section B: Descriptive
+
 Q1. Define Working Capital. (5 marks)
 Working capital is current assets minus current liabilities.
 
-── Mixed: MCQ + Table + Descriptive ──
-Use the Mixed mode for combined content."></textarea>
-          <span class="char-count" id="fmtCharCount">0 chars</span>
+Section C: Table
+
+| Item       | Amount |
+|------------|--------|
+| Capital    | 10,000 |
+| Reserves   |  5,000 |"></textarea>
+          <span class="char-count" id="charCount">0 chars</span>
+        </div>
+
+        <div class="mini-stats" id="miniStatsRow" style="display:none">
+          <div class="ms"><div class="ms-n" id="stQ2">—</div><div class="ms-l">Questions</div></div>
+          <div class="ms"><div class="ms-n" id="stO2">—</div><div class="ms-l">Options</div></div>
+          <div class="ms"><div class="ms-n" id="stA2">—</div><div class="ms-l">Answers</div></div>
+          <div class="ms"><div class="ms-n" id="stT2">—</div><div class="ms-l">Tables</div></div>
+          <div class="ms"><div class="ms-n" id="stL2">—</div><div class="ms-l">Lines</div></div>
         </div>
 
         <div class="btn-row">
-          <button class="btn btn-primary" onclick="runFmt()">⚡ Format</button>
-          <button class="btn btn-outline"  onclick="loadFmtSample()">📄 Sample</button>
-          <button class="btn btn-outline"  onclick="clearFmt()">🗑 Clear</button>
+          <button class="btn btn-primary" onclick="runConvert()">⚡ Convert to HTML</button>
+          <button class="btn btn-outline"  onclick="loadSample()">📄 Sample</button>
+          <button class="btn btn-outline"  onclick="clearAll()">🗑 Clear</button>
+        </div>
+
+        <div class="info-box blue">
+          <span class="ib-icon">💡</span>
+          <div>
+            <strong>How to use in Learnyst</strong>
+            Convert → click "Copy Clean HTML" → paste into Learnyst's HTML source editor
+          </div>
         </div>
 
       </div>
@@ -1379,134 +1469,50 @@ Use the Mixed mode for combined content."></textarea>
     <!-- OUTPUT CARD -->
     <div class="card">
       <div class="card-header">
-        <div class="card-icon">✅</div>
+        <div class="card-icon">🌐</div>
         <div>
-          <h2>Formatted Output</h2>
-          <p>Clean, consistent, ready for test series</p>
+          <h2>Learnyst HTML Output</h2>
+          <p>Preview rendered · switch to Code to copy HTML</p>
         </div>
       </div>
       <div class="card-body">
 
-        <div class="output-box preview-mode" id="fmtOutput" style="min-height:360px">
-          <div class="output-placeholder">
-            <span class="ph-icon">✏️</span>
-            Formatted content will appear here…
+        <div class="preview-wrap">
+          <div class="preview-tabs">
+            <button class="ptab active" id="pt-preview" onclick="switchPreview('preview')">👁 Preview</button>
+            <button class="ptab"        id="pt-code"    onclick="switchPreview('code')">💻 HTML Code</button>
           </div>
+          <div id="previewContent" class="preview-content">
+            <div class="output-placeholder">
+              <span class="ph-icon">🌐</span>
+              Converted content will appear here…
+            </div>
+          </div>
+          <div id="codeContent" class="code-content" style="display:none">Converted HTML code will appear here…</div>
         </div>
 
         <div class="btn-row">
-          <button class="btn btn-success" onclick="copyFmtOut()">📋 Copy</button>
-          <button class="btn btn-outline"  onclick="dlFmtOut()">⬇ Download .txt</button>
-          <button class="btn btn-danger"   onclick="clearFmtOut()">✕ Clear</button>
+          <button class="btn btn-success" onclick="copyFullHTML()">📋 Copy HTML</button>
+          <button class="btn btn-blue"    onclick="copyLearnystHTML()">📋 Copy Clean HTML</button>
+          <button class="btn btn-amber"   onclick="downloadHTML()">⬇ Download .html</button>
+          <button class="btn btn-danger"  onclick="clearOutput()">✕ Clear</button>
         </div>
 
-      </div>
-    </div>
-
-  </div><!-- /panel-formatter -->
-
-
-  <!-- ══ TAB: DUPLICATE CHECKER ══ -->
-  <div class="tab-panel" id="panel-duplicate">
-
-    <!-- INPUT CARD -->
-    <div class="card">
-      <div class="card-header">
-        <div class="card-icon">📋</div>
-        <div>
-          <h2>Paste Your Question Bank</h2>
-          <p>All questions from any source — duplicates found instantly</p>
-        </div>
-      </div>
-      <div class="card-body">
-
-        <div class="toggles">
-          <label class="tog on" id="dTex"  onclick="togDup(this,'exact')"><div class="tog-dot"></div>Exact Match</label>
-          <label class="tog on" id="dTsim" onclick="togDup(this,'similar')"><div class="tog-dot"></div>Similar (70%+)</label>
-        </div>
-
-        <div class="textarea-wrap">
-          <textarea id="dupInput" spellcheck="false" placeholder="Paste all questions here:
-
-1. What is the capital of India?
-A) Mumbai
-B) New Delhi
-C) Chennai
-D) Kolkata
-Answer: B
-
-2. What is the capital of India?
-A) Mumbai
-B) New Delhi
-C) Chennai
-D) Kolkata
-Answer: B
-
-3. Which planet is closest to the Sun?
-A) Earth
-B) Venus
-C) Mercury
-D) Mars
-Answer: C"></textarea>
-          <span class="char-count" id="dupCharCount">0 chars</span>
-        </div>
-
-        <div class="btn-row">
-          <button class="btn btn-primary" onclick="runDupCheck()">🔍 Check Duplicates</button>
-          <button class="btn btn-outline"  onclick="clearDup()">🗑 Clear</button>
-        </div>
-
-        <div class="info-box green">
-          <span class="ib-icon">💡</span>
+        <div class="info-box amber">
+          <span class="ib-icon">📌</span>
           <div>
-            <strong>How it works</strong>
-            Paste questions separated by blank lines. Finds exact matches and 70%+ similar questions. Download a clean unique-only set.
+            <strong>Clean HTML = Learnyst-safe</strong>
+            "Copy Clean HTML" removes all style attributes — uses only safe tags: &lt;p&gt; &lt;strong&gt; &lt;table&gt; &lt;ul&gt;
           </div>
         </div>
 
       </div>
     </div>
 
-    <!-- RESULTS CARD -->
-    <div class="card">
-      <div class="card-header">
-        <div class="card-icon">🔍</div>
-        <div>
-          <h2>Duplicate Report</h2>
-          <p>Exact &amp; similar matches highlighted — download clean set</p>
-        </div>
-      </div>
-      <div class="card-body">
+  </div>
+</div>
 
-        <!-- Stats -->
-        <div class="dup-stat-row" id="dupStatRow" style="display:none">
-          <div class="ds total" ><div class="ds-num" id="dTotal">0</div><div class="ds-lbl">Total</div></div>
-          <div class="ds dupes" ><div class="ds-num" id="dDups">0</div><div class="ds-lbl">Duplicates</div></div>
-          <div class="ds unique"><div class="ds-num" id="dUniq">0</div><div class="ds-lbl">Unique</div></div>
-        </div>
-
-        <div class="output-box preview-mode" id="dupOutput" style="min-height:320px">
-          <div class="output-placeholder">
-            <span class="ph-icon">🔍</span>
-            Duplicate results will appear here…
-          </div>
-        </div>
-
-        <div class="btn-row">
-          <button class="btn btn-success" id="btnCopyClean" style="display:none" onclick="copyCleanQs()">📋 Copy Unique Only</button>
-          <button class="btn btn-outline"  id="btnDlClean"   style="display:none" onclick="dlCleanQs()">⬇ Download Clean</button>
-        </div>
-
-      </div>
-    </div>
-
-  </div><!-- /panel-duplicate -->
-
-</div><!-- /workspace -->
-
-<!-- ══════════════════════════════════════
-     FOOTER
-══════════════════════════════════════ -->
+<!-- FOOTER -->
 <footer class="site-footer">
   <div class="footer-left">
     © 2026 <strong>ArivuPro Academy</strong> · Test Series Tool · Internal Use Only
@@ -1519,21 +1525,30 @@ Answer: C"></textarea>
 
 <div class="toast" id="toast"></div>
 
-<!-- SCRIPTS -->
-
-
 
 
 <script>
-  // Init char counts
-  document.addEventListener('DOMContentLoaded', () => {
-    ['fmtInput','dupInput'].forEach(id => {
-      const el = document.getElementById(id);
-      const cc = document.getElementById(id === 'fmtInput' ? 'fmtCharCount' : 'dupCharCount');
-      if (el && cc) {
-        el.addEventListener('input', () => { cc.textContent = el.value.length.toLocaleString() + ' chars'; });
-      }
+  // sync mini stats to top bar
+  const _origSetMini = setMiniStats;
+  function setMiniStats(q,o,a,t,l) {
+    _origSetMini(q,o,a,t,l);
+    ['Q','O','A','T','L'].forEach((k,i) => {
+      const vals=[q,o,a,t,l];
+      const el=document.getElementById('st'+k);
+      if(el){ el.textContent=vals[i]>0?vals[i]:'—'; el.className='stat-n'+(vals[i]>0?'':' dim'); }
     });
+    // also sync the mini stats to stQ2 etc
+    ['Q2','O2','A2','T2','L2'].forEach((k,i)=>{
+      const vals=[q,o,a,t,l];
+      const el=document.getElementById('st'+k);
+      if(el) el.textContent=vals[i]>0?vals[i]:'—';
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const inp = document.getElementById('mainInput');
+    const cc  = document.getElementById('charCount');
+    if (inp && cc) inp.addEventListener('input', () => { cc.textContent = inp.value.length.toLocaleString() + ' chars'; });
   });
 </script>
 
@@ -1669,76 +1684,131 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 /* ═══════════════════════════════════════════════
-   ARIVUPRO — QUESTION FORMATTER JS
-   js/formatter.js
+   ARIVUPRO — LEARNYST HTML EXPORTER JS
+   js/exporter.js
 ═══════════════════════════════════════════════ */
 
 'use strict';
 
-let fmtMode = 'mcq';
-let fmtPlain = '';
+/* ════════════════════════════
+   STATE
+════════════════════════════ */
+let currentMode = 'auto';
+let generatedHTML = '';
+let cleanHTML = '';
 
-const fmtOpts2 = {
-  boldQ: true, boldA: true, greenA: false,
-  autoNum: true, dNum: true, dHeading: true, dMarks: false
+const fmtOpts = {
+  boldQ:     true,
+  showAns:   true,
+  showExp:   true,
+  showMarks: false,
+  autoNum:   true
 };
 
 /* ════════════════════════════
    INIT
 ════════════════════════════ */
 document.addEventListener('DOMContentLoaded', () => {
-  const inp = document.getElementById('fmtInput');
-  if (inp) inp.addEventListener('input', debounce(runFmt, 380));
+  const inp = document.getElementById('mainInput');
+  if (inp) {
+    inp.addEventListener('input', debounce(() => {
+      if (inp.value.trim()) runConvert();
+    }, 400));
+
+    // char counter
+    inp.addEventListener('input', () => {
+      const cc = document.getElementById('charCount');
+      if (cc) cc.textContent = inp.value.length.toLocaleString() + ' chars';
+    });
+  }
 });
 
 /* ════════════════════════════
-   MODE
+   MODE SWITCH
 ════════════════════════════ */
-function setFmtMode(m) {
-  fmtMode = m;
-  ['mcq','desc','para','mixed'].forEach(k => {
-    const btn = document.getElementById('fm-' + k);
+function setMode(m) {
+  currentMode = m;
+  ['auto','mcq','desc','para','table'].forEach(k => {
+    const btn = document.getElementById('m-' + k);
     if (btn) btn.classList.toggle('active', k === m);
   });
-  const isMcq  = m === 'mcq'  || m === 'mixed';
-  const isDesc = m === 'desc' || m === 'para' || m === 'mixed';
-  const mt = document.getElementById('mcqToggles');
-  const dt = document.getElementById('descToggles');
-  if (mt) mt.style.display = isMcq  ? 'flex' : 'none';
-  if (dt) dt.style.display = isDesc ? 'flex' : 'none';
-
-  const inp = document.getElementById('fmtInput');
-  if (inp && inp.value.trim()) runFmt();
+  const inp = document.getElementById('mainInput');
+  if (inp && inp.value.trim()) runConvert();
 }
 
-function togFmt(el, key) {
+/* ════════════════════════════
+   TOGGLE OPTIONS
+════════════════════════════ */
+function togOpt(el, key) {
   el.classList.toggle('on');
-  fmtOpts2[key] = el.classList.contains('on');
-  const inp = document.getElementById('fmtInput');
-  if (inp && inp.value.trim()) runFmt();
+  fmtOpts[key] = el.classList.contains('on');
+  const inp = document.getElementById('mainInput');
+  if (inp && inp.value.trim()) runConvert();
 }
 
 /* ════════════════════════════
-   MAIN ROUTER
+   PREVIEW TABS
 ════════════════════════════ */
-function runFmt() {
-  const raw = document.getElementById('fmtInput').value;
-  if (!raw.trim()) { clearFmtOut(); return; }
+function switchPreview(tab) {
+  const isPreview = tab === 'preview';
+  const previewPane = document.getElementById('previewContent');
+  const codePane    = document.getElementById('codeContent');
+  const ptPrev      = document.getElementById('pt-preview');
+  const ptCode      = document.getElementById('pt-code');
 
-  const out = document.getElementById('fmtOutput');
-  out.innerHTML = '';
-  fmtPlain = '';
-
-  if      (fmtMode === 'mcq')   fmtMCQ(raw, out);
-  else if (fmtMode === 'desc')  fmtDesc(raw, out);
-  else if (fmtMode === 'para')  fmtPara(raw, out);
-  else                          fmtMixed(raw, out);
+  if (previewPane) previewPane.style.display = isPreview ? 'block' : 'none';
+  if (codePane)    codePane.style.display    = isPreview ? 'none'  : 'block';
+  if (ptPrev)      ptPrev.classList.toggle('active',  isPreview);
+  if (ptCode)      ptCode.classList.toggle('active', !isPreview);
 }
 
 /* ════════════════════════════
-   LINE CLASSIFIER
+   MAIN CONVERT ROUTER
 ════════════════════════════ */
-function clf(t) {
+function runConvert() {
+  const raw = document.getElementById('mainInput').value.trim();
+  if (!raw) { clearOutput(); return; }
+
+  const mode = currentMode === 'auto' ? autoDetect(raw) : currentMode;
+
+  let inner = '';
+  if      (mode === 'table') inner = buildTable(raw);
+  else if (mode === 'mcq')   inner = buildMCQ(raw);
+  else if (mode === 'desc')  inner = buildDesc(raw);
+  else if (mode === 'para')  inner = buildPara(raw);
+  else                       inner = buildMixed(raw);
+
+  generatedHTML = `<!-- Learnyst HTML Export — ArivuPro Academy -->\n<div style="font-family:Arial,sans-serif;max-width:800px;line-height:1.6">\n${inner}</div>`;
+  cleanHTML     = buildClean(inner);
+
+  // Render
+  const prev = document.getElementById('previewContent');
+  const code = document.getElementById('codeContent');
+  if (prev) prev.innerHTML = inner;
+  if (code) code.textContent = generatedHTML;
+}
+
+/* ════════════════════════════
+   AUTO DETECT MODE
+════════════════════════════ */
+function autoDetect(raw) {
+  const lines = raw.split('\n').map(l => l.trim());
+  const hasOpts  = lines.some(l => /^[A-Da-d][.)]\s/.test(l) || /^\([A-Da-d]\)/.test(l));
+  const hasAns   = lines.some(l => /^(answer|ans|correct)/i.test(l));
+  const hasTable = lines.some(l => /^\|.+\|/.test(l));
+  const hasQ     = lines.some(l => /^(q\.?\s*\d+|question\s*\d+)/i.test(l));
+
+  if (hasTable && !hasOpts) return 'table';
+  if ((hasOpts || hasAns) && hasQ) return 'mixed';
+  if (hasOpts || hasAns) return 'mcq';
+  if (hasQ) return 'desc';
+  return 'mixed';
+}
+
+/* ════════════════════════════
+   MCQ BUILDER
+════════════════════════════ */
+function classifyLine(t) {
   if (!t) return 'blank';
   if (/^[A-Da-d][.)]\s/.test(t) || /^\([A-Da-d]\)\s*\S/.test(t)) return 'opt';
   if (/^(answer|correct\s*option|correct\s*answer|ans)\s*[:\-]?\s*/i.test(t)) return 'ans';
@@ -1747,39 +1817,30 @@ function clf(t) {
   return 'other';
 }
 
-/* ════════════════════════════
-   MCQ FORMATTER
-════════════════════════════ */
-function fmtMCQ(raw, container) {
+function buildMCQ(raw) {
   const lines = raw.split(/\r?\n/).map(l => l.trim());
-  const cl = lines.map(l => ({ type: clf(l), text: l }));
+  const cl = lines.map(l => ({ type: classifyLine(l), text: l }));
 
   for (let i = 1; i < cl.length; i++) {
     if (cl[i].type === 'other' && (cl[i-1].type === 'q' || cl[i-1].type === 'qcont'))
       cl[i].type = 'qcont';
   }
 
-  let qC=0, oC=0, aC=0, lC=0, qNum=0;
+  let html = '', qNum = 0;
+  let qC = 0, oC = 0, aC = 0;
 
   cl.forEach(c => {
-    if (c.type === 'blank') {
-      addGap(container); fmtPlain += '\n'; return;
-    }
-    lC++;
+    if (c.type === 'blank') return;
 
     if (c.type === 'q' || c.type === 'qcont') {
       if (c.type === 'q') { qC++; qNum++; }
       let txt = c.text;
-      if (fmtOpts2.autoNum && c.type === 'q') {
+      if (fmtOpts.autoNum && c.type === 'q') {
         txt = txt.replace(/^\d+[.)]\s*/, '').replace(/^question\s*\d+\.?\s*/i, '');
         txt = `${qNum}. ${txt}`;
       }
-      const el = mk('span', 'fmt-q');
-      el.style.fontWeight = fmtOpts2.boldQ ? '700' : '400';
-      el.style.marginTop = qNum > 1 ? '14px' : '0';
-      el.textContent = txt;
-      container.appendChild(el);
-      fmtPlain += txt + '\n';
+      const fw = fmtOpts.boldQ ? 'font-weight:700;' : '';
+      html += `<p style="${fw}color:#111;margin:16px 0 6px;font-size:15px;line-height:1.6">${escHtml(txt)}</p>\n`;
 
     } else if (c.type === 'opt') {
       oC++;
@@ -1788,49 +1849,37 @@ function fmtMCQ(raw, container) {
       let letter, rest;
       if (pm)      { letter = pm[1].toLowerCase(); rest = pm[2].trim(); }
       else if (nm) { letter = nm[1].toLowerCase(); rest = nm[2].trim(); }
-      else         { letter = ''; rest = c.text; }
-      const fmt = letter ? `(${letter}) ${rest}` : rest;
-      const el = mk('span', 'fmt-opt');
-      el.textContent = fmt;
-      container.appendChild(el);
-      fmtPlain += fmt + '\n';
+      else         { letter = '';                  rest = c.text;       }
+      const label = letter ? `(${letter}) ` : '';
+      html += `<p style="padding:3px 0 3px 22px;color:#374151;font-size:14px;margin:2px 0">${escHtml(label + rest)}</p>\n`;
 
-    } else if (c.type === 'ans') {
+    } else if (c.type === 'ans' && fmtOpts.showAns) {
       aC++;
       let fmt = c.text
-        .replace(/^(answer|correct\s*option|correct\s*answer|ans)\s*[:\-]?\s*/i, 'Answer: ')
-        .replace(/Answer:\s*([A-Da-d])[.)]\s*/i, (_, l) => `Answer: (${l.toLowerCase()}) `)
-        .replace(/Answer:\s*\(([A-Da-d])\)\s*/i, (_, l) => `Answer: (${l.toLowerCase()}) `)
-        .replace(/Answer:\s*([A-Da-d])\s*$/i,    (_, l) => `Answer: (${l.toLowerCase()})`);
-      const el = mk('span', 'fmt-ans' + (fmtOpts2.greenA ? ' green' : ''));
-      el.style.fontWeight = fmtOpts2.boldA ? '700' : '400';
-      el.textContent = fmt;
-      container.appendChild(el);
-      fmtPlain += fmt + '\n';
+        .replace(/^(answer|correct\s*option|correct\s*answer|ans)\s*[:\-]?\s*/i, '')
+        .replace(/^([A-Da-d])[.)]\s*/i, (_, l) => `(${l.toLowerCase()}) `)
+        .replace(/^\(([A-Da-d])\)\s*/i, (_, l) => `(${l.toLowerCase()}) `);
+      html += `<p style="font-weight:700;color:#15803d;font-size:13px;margin:8px 0 4px;padding:6px 12px;background:#f0fdf4;border-left:3px solid #22c55e;border-radius:0 6px 6px 0">✓ Answer: ${escHtml(fmt)}</p>\n`;
 
-    } else if (c.type === 'exp') {
-      const el = mk('span', 'fmt-exp');
-      el.textContent = c.text;
-      container.appendChild(el);
-      fmtPlain += c.text + '\n';
+    } else if (c.type === 'exp' && fmtOpts.showExp) {
+      const txt = c.text.replace(/^explanation[:\s]*/i, '');
+      html += `<p style="color:#6b7280;font-style:italic;font-size:13px;margin:3px 0 10px;padding-left:6px">💡 ${escHtml(txt)}</p>\n`;
 
-    } else {
-      const el = mk('span', 'fmt-other');
-      el.textContent = c.text;
-      container.appendChild(el);
-      fmtPlain += c.text + '\n';
+    } else if (c.type !== 'ans' && c.type !== 'exp') {
+      html += `<p style="color:#374151;font-size:14px;margin:3px 0">${escHtml(c.text)}</p>\n`;
     }
   });
 
-  setGlobalStats(qC, oC, aC, lC);
+  setMiniStats(qC, oC, aC, 0, lines.filter(l => l).length);
+  return html;
 }
 
 /* ════════════════════════════
-   DESC FORMATTER
+   DESCRIPTIVE BUILDER
 ════════════════════════════ */
-function fmtDesc(raw, container) {
+function buildDesc(raw) {
   const blocks = raw.split(/\n\s*\n/).filter(b => b.trim());
-  let qC=0, lC=0;
+  let html = '', qC = 0, lC = 0;
 
   blocks.forEach(block => {
     const lines = block.split('\n').map(l => l.trim()).filter(Boolean);
@@ -1838,16 +1887,10 @@ function fmtDesc(raw, container) {
     lC += lines.length;
     const first = lines[0];
 
+    // Section heading
     if (/^section\s+[A-Z0-9]/i.test(first) || /^[A-Z][A-Z\s:&\-]{4,}$/.test(first)) {
-      const h = mk('span', 'fmt-section-head');
-      h.textContent = first.toUpperCase();
-      container.appendChild(h);
-      fmtPlain += '\n' + first.toUpperCase() + '\n';
-      lines.slice(1).forEach(l => {
-        const p = mk('span', 'fmt-para');
-        p.textContent = l; container.appendChild(p); fmtPlain += l + '\n';
-      });
-      addGap(container); fmtPlain += '\n';
+      html += sectionHeadHtml(first);
+      lines.slice(1).forEach(l => { html += paraHtml(l); });
       return;
     }
 
@@ -1857,43 +1900,32 @@ function fmtDesc(raw, container) {
     if (isQ) {
       qC++;
       let qtxt = first.replace(/^(q\.?\s*\d+|question\s*\d+|\d+[.)]\s)/i, '').trim();
-      const label = fmtOpts2.dNum ? `Q${qC}. ` : '';
-      const el = mk('span', 'fmt-desc-q');
-      el.style.fontWeight = fmtOpts2.dHeading ? '700' : '400';
-
-      if (fmtOpts2.dMarks && marksM) {
-        const badge = mk('span', 'marks-badge');
-        badge.textContent = marksM[1] + ' M';
-        el.textContent = label + qtxt.replace(marksM[0], '').trim() + ' ';
-        el.appendChild(badge);
-      } else {
-        el.textContent = label + qtxt;
+      let display = (fmtOpts.autoNum ? `Q${qC}. ` : '') + escHtml(qtxt);
+      if (fmtOpts.showMarks && marksM) {
+        display += ` <span style="display:inline-block;background:#dcfce7;color:#15803d;font-size:11px;font-weight:800;padding:2px 8px;border-radius:10px;border:1px solid #4ade80;margin-left:6px">${marksM[1]} Marks</span>`;
+        display = display.replace(escHtml(marksM[0]), '');
       }
-      container.appendChild(el);
-      fmtPlain += label + qtxt + '\n';
+      const fw = fmtOpts.boldQ ? 'font-weight:700;' : '';
+      html += `<p style="${fw}color:#111;font-size:15px;margin:16px 0 5px;line-height:1.6">${display}</p>\n`;
     } else {
-      const el = mk('span', fmtOpts2.dHeading ? 'fmt-section-head' : 'fmt-desc-q');
-      el.textContent = first;
-      container.appendChild(el);
-      fmtPlain += first + '\n';
+      const fw = fmtOpts.boldQ ? 'font-weight:700;' : '';
+      html += `<p style="${fw}color:#111;font-size:15px;margin:14px 0 4px">${escHtml(first)}</p>\n`;
     }
 
-    lines.slice(1).forEach(l => {
-      const p = mk('span', 'fmt-para');
-      p.textContent = l; container.appendChild(p); fmtPlain += l + '\n';
-    });
-    addGap(container); fmtPlain += '\n';
+    lines.slice(1).forEach(l => { html += paraHtml(l); });
+    html += spacer();
   });
 
-  setGlobalStats(qC, 0, 0, lC);
+  setMiniStats(qC, 0, 0, 0, lC);
+  return html;
 }
 
 /* ════════════════════════════
-   PARA FORMATTER
+   PARAGRAPH BUILDER
 ════════════════════════════ */
-function fmtPara(raw, container) {
+function buildPara(raw) {
   const blocks = raw.split(/\n\s*\n/).filter(b => b.trim());
-  let lC = 0;
+  let html = '', lC = 0;
 
   blocks.forEach(block => {
     const lines = block.split('\n').map(l => l.trim()).filter(Boolean);
@@ -1902,408 +1934,233 @@ function fmtPara(raw, container) {
     const first = lines[0];
 
     if (/^(section|passage|reading|part|extract)/i.test(first) || /^[A-Z][A-Z\s:&\-]{3,}$/.test(first)) {
-      const h = mk('span', 'fmt-section-head');
-      h.textContent = first; container.appendChild(h); fmtPlain += '\n' + first + '\n';
-      lines.slice(1).forEach(l => {
-        const p = mk('span', 'fmt-para'); p.textContent = l; container.appendChild(p); fmtPlain += l + '\n';
-      });
+      html += sectionHeadHtml(first);
+      lines.slice(1).forEach(l => { html += `<p style="color:#374151;font-size:14px;line-height:1.9;margin:5px 0">${escHtml(l)}</p>\n`; });
     } else {
       lines.forEach((l, i) => {
-        const p = mk('span', i === 0 && lines.length > 1 ? 'fmt-desc-q' : 'fmt-para');
-        p.textContent = l; container.appendChild(p); fmtPlain += l + '\n';
+        const fw = (i === 0 && lines.length > 1) ? 'font-weight:600;' : '';
+        html += `<p style="${fw}color:#374151;font-size:14px;line-height:1.9;margin:5px 0">${escHtml(l)}</p>\n`;
       });
     }
-    addGap(container); fmtPlain += '\n';
+    html += spacer();
   });
 
-  setGlobalStats(0, 0, 0, lC);
+  setMiniStats(0, 0, 0, 0, lC);
+  return html;
 }
 
 /* ════════════════════════════
-   MIXED FORMATTER
+   TABLE BUILDER
 ════════════════════════════ */
-function fmtMixed(raw, container) {
+function buildTable(raw) {
+  const lines = raw.split(/\r?\n/).map(l => l.trim()).filter(Boolean);
+  let html = '', tableRows = [], nonTable = [], tC = 0;
+
+  function flushTable() {
+    if (!tableRows.length) return;
+    tC++;
+    html += `<table style="border-collapse:collapse;width:100%;margin:14px 0;font-size:14px">\n`;
+    tableRows.forEach((row, ri) => {
+      const cells = row.split('|').map(c => c.trim()).filter(c => c && !/^[-:\s]+$/.test(c));
+      if (!cells.length) return;
+      html += `  <tr>\n`;
+      cells.forEach(cell => {
+        if (ri === 0) {
+          html += `    <th style="background:#14532d;color:#fff;padding:9px 13px;text-align:left;font-weight:700;font-size:13px;border:1px solid #166534">${escHtml(cell)}</th>\n`;
+        } else {
+          const bg = ri % 2 === 0 ? 'background:#f0fdf4;' : '';
+          html += `    <td style="${bg}padding:7px 13px;border:1px solid #d1fae5;color:#374151;font-size:13px">${escHtml(cell)}</td>\n`;
+        }
+      });
+      html += `  </tr>\n`;
+    });
+    html += `</table>\n`;
+    tableRows = [];
+  }
+
+  lines.forEach(line => {
+    if (/^\|.+\|/.test(line)) {
+      if (/^\|[\s\-:|]+\|$/.test(line)) return; // skip separator
+      if (nonTable.length) {
+        nonTable.forEach(l => { html += paraHtml(l); });
+        nonTable = [];
+      }
+      tableRows.push(line);
+    } else {
+      if (tableRows.length) { flushTable(); }
+      nonTable.push(line);
+    }
+  });
+  if (tableRows.length) flushTable();
+  nonTable.forEach(l => { html += paraHtml(l); });
+
+  setMiniStats(0, 0, 0, tC, lines.length);
+  return html;
+}
+
+/* ════════════════════════════
+   MIXED BUILDER
+════════════════════════════ */
+function buildMixed(raw) {
   const blocks = raw.split(/\n\s*\n/).filter(b => b.trim());
+  let html = '', tC = 0;
 
   blocks.forEach(block => {
     const lines = block.split('\n').map(l => l.trim()).filter(Boolean);
     if (!lines.length) return;
 
-    const hasOpts = lines.some(l => /^[A-Da-d][.)]\s/.test(l) || /^\([A-Da-d]\)/.test(l));
-    const hasAns  = lines.some(l => /^(answer|ans|correct)/i.test(l));
-    const isSec   = /^(section|passage|part\s)/i.test(lines[0]) || /^[A-Z][A-Z\s:&]{4,}$/.test(lines[0]);
-    const isDescQ = /^(q\.?\s*\d+|question\s*\d+|\d+[.)]\s)/i.test(lines[0]);
+    const hasOpts  = lines.some(l => /^[A-Da-d][.)]\s/.test(l) || /^\([A-Da-d]\)/.test(l));
+    const hasAns   = lines.some(l => /^(answer|ans|correct)/i.test(l));
+    const hasTable = lines.some(l => /^\|.+\|/.test(l));
+    const isSec    = /^(section|passage|part\s)/i.test(lines[0]) || /^[A-Z][A-Z\s:&]{4,}$/.test(lines[0]);
+    const isDescQ  = /^(q\.?\s*\d+|question\s*\d+|\d+[.)]\s)/i.test(lines[0]);
 
-    if (hasOpts || hasAns) {
-      fmtMCQ(block, container);
+    if (hasTable) {
+      html += buildTable(block);
+      tC++;
+    } else if (hasOpts || hasAns) {
+      html += buildMCQ(block);
     } else if (isSec) {
-      const h = mk('span', 'fmt-section-head');
-      h.textContent = lines[0].toUpperCase(); container.appendChild(h); fmtPlain += lines[0].toUpperCase() + '\n';
-      lines.slice(1).forEach(l => {
-        const p = mk('span', 'fmt-para'); p.textContent = l; container.appendChild(p); fmtPlain += l + '\n';
-      });
+      html += sectionHeadHtml(lines[0]);
+      lines.slice(1).forEach(l => { html += paraHtml(l); });
     } else if (isDescQ) {
-      fmtDesc(block, container);
+      html += buildDesc(block);
     } else {
-      lines.forEach(l => {
-        const p = mk('span', 'fmt-para'); p.textContent = l; container.appendChild(p); fmtPlain += l + '\n';
-      });
+      lines.forEach(l => { html += paraHtml(l); });
     }
-    addGap(container); fmtPlain += '\n';
+    html += spacer();
   });
 
-  const qC = (raw.match(/^\d+[.)]\s/gm) || []).length;
-  const oC = (raw.match(/^[A-Da-d][.)]\s/gm) || []).length;
-  const aC = (raw.match(/^(answer|ans|correct)/gim) || []).length;
-  setGlobalStats(qC, oC, aC, raw.split('\n').filter(l => l.trim()).length);
+  // Count totals from raw
+  const totalQ = (raw.match(/^\d+[.)]\s/gm) || []).length;
+  const totalO = (raw.match(/^[A-Da-d][.)]\s/gm) || []).length;
+  const totalA = (raw.match(/^(answer|ans|correct)/gim) || []).length;
+  setMiniStats(totalQ, totalO, totalA, tC, raw.split('\n').filter(l => l.trim()).length);
+  return html;
 }
 
 /* ════════════════════════════
-   DOM HELPERS
+   CLEAN HTML (Learnyst-safe)
 ════════════════════════════ */
-function mk(tag, cls) {
-  const el = document.createElement(tag);
-  if (cls) el.className = cls;
-  el.style.display = 'block';
-  return el;
-}
-
-function addGap(container) {
-  const g = document.createElement('span');
-  g.style.display = 'block';
-  g.style.height  = '8px';
-  container.appendChild(g);
+function buildClean(inner) {
+  // Remove all style="" and class="" attributes — Learnyst may strip anyway
+  const stripped = inner
+    .replace(/ style="[^"]*"/g, '')
+    .replace(/ class="[^"]*"/g, '');
+  return `<!-- Learnyst Clean HTML — ArivuPro -->\n<div>\n${stripped}</div>`;
 }
 
 /* ════════════════════════════
-   GLOBAL STATS BAR
+   HTML HELPERS
 ════════════════════════════ */
-function setGlobalStats(q, o, a, l) {
-  const set = (id, v) => { const el = document.getElementById(id); if (el) { el.textContent = v > 0 ? v : '—'; el.className = 'stat-n' + (v > 0 ? '' : ' dim'); } };
-  set('gQ', q); set('gO', o); set('gA', a); set('gL', l);
+function sectionHeadHtml(text) {
+  return `<p style="font-weight:800;color:#052e16;font-size:14px;margin:20px 0 9px;padding-bottom:5px;border-bottom:2px solid #4ade80;text-transform:uppercase;letter-spacing:.05em">${escHtml(text)}</p>\n`;
+}
+
+function paraHtml(text) {
+  return `<p style="color:#374151;font-size:14px;line-height:1.85;margin:5px 0">${escHtml(text)}</p>\n`;
+}
+
+function spacer() {
+  return `<p style="margin:6px 0"> </p>\n`;
+}
+
+/* ════════════════════════════
+   MINI STATS
+════════════════════════════ */
+function setMiniStats(q, o, a, t, l) {
+  const set = (id, val) => {
+    const el = document.getElementById(id);
+    if (el) el.textContent = val > 0 ? val : '—';
+  };
+  set('stQ', q); set('stO', o); set('stA', a); set('stT', t); set('stL', l);
+  const row = document.getElementById('miniStatsRow');
+  if (row) row.style.display = 'flex';
 }
 
 /* ════════════════════════════
    COPY / DOWNLOAD
 ════════════════════════════ */
-function copyFmtOut() {
-  if (!fmtPlain.trim()) return showToast('Nothing to copy — format first!', 'err');
-  copyText(fmtPlain, '✓ Copied to clipboard!');
+function copyFullHTML() {
+  if (!generatedHTML) return showToast('Convert something first!', 'err');
+  copyText(generatedHTML, '✓ HTML copied!');
 }
 
-function dlFmtOut() {
-  if (!fmtPlain.trim()) return showToast('Nothing to download!', 'err');
-  dlFile(fmtPlain, 'arivupro_formatted.txt');
-  showToast('⬇ Downloading…', 'dl');
+function copyLearnystHTML() {
+  if (!cleanHTML) return showToast('Convert something first!', 'err');
+  copyText(cleanHTML, '✓ Clean HTML copied — paste into Learnyst!');
+}
+
+function downloadHTML() {
+  if (!generatedHTML) return showToast('Nothing to download!', 'err');
+  dlFile(generatedHTML, 'arivupro_learnyst_export.html', 'text/html');
+  showToast('⬇ Downloading HTML file…', 'dl');
 }
 
 /* ════════════════════════════
-   SAMPLE
+   SAMPLE DATA
 ════════════════════════════ */
-function loadFmtSample() {
-  const samples = {
-    mcq: `Question 1
-Procker Co held 270 units of WIP at 31 May 20X3. WIP has cost a total of $21,600. Costs to complete are $19 per unit and finished goods sell for $111 per unit. Selling costs are $5 per unit.
-What is the correct valuation of WIP at 31 May 20X3 per IAS 2?
-A) $24,300
-B) $21,600
-C) $18,900
-D) $20,700
-Correct Option: B
-Explanation: Cost/unit = $80. NRV = $87. Since cost < NRV, value at cost = $21,600.
+function loadSample() {
+  const s = `Section A: Multiple Choice Questions
 
-1. Which planet is known as the Red Planet?
-A) Earth
-B) Mars
-C) Venus
-D) Jupiter
-Answer: B) Mars
+1. Under IAS 2, inventories should be valued at:
+A) Cost only
+B) Net realisable value only
+C) Lower of cost and net realisable value
+D) Higher of cost and net realisable value
+Answer: C
+Explanation: IAS 2 requires inventories to be measured at the lower of cost and NRV.
 
-2. What is the capital of India?
-a) Mumbai
-b) New Delhi
-c) Chennai
-d) Kolkata
-Answer: b`,
-
-    desc: `Section A: Financial Accounting
-
-Q1. What is Working Capital? Explain its significance. (5 marks)
-Working capital is the difference between current assets and current liabilities.
-It represents the liquid assets available to meet short-term obligations.
-
-Q2. Distinguish between Capital Expenditure and Revenue Expenditure. (8 marks)
-Capital expenditure refers to funds used to acquire or upgrade physical assets.
-Revenue expenditure refers to costs incurred in the day-to-day running of a business.`,
-
-    para: `PASSAGE: The Role of Internal Audit in Corporate Governance
-
-Internal audit is an independent, objective assurance and consulting activity designed to add value and improve an organization's operations. It helps accomplish objectives by bringing a systematic, disciplined approach to evaluate and improve risk management, control, and governance.
-
-Read the passage carefully and answer the questions.
-
-1. What is the primary purpose of internal audit as described in the passage?
-2. How does internal audit contribute to risk management?
-3. Explain the term "objective assurance" in the context of internal audit.`,
-
-    mixed: `Section A — MCQ (20 Marks)
-
-1. What does IAS stand for?
-A) International Audit Standards
-B) International Accounting Standards
-C) Internal Audit System
-D) International Assessment Standards
-Answer: B
-
-2. Which of the following is NOT a current asset?
-A) Cash
-B) Trade Receivables
-C) Plant & Machinery
-D) Inventory
+2. Which of the following is a current liability?
+A) Bank Loan (5 years)
+B) Debentures
+C) Trade Payables
+D) Share Capital
 Answer: C
 
-Section B — Descriptive (30 Marks)
+Section B: Descriptive Questions
 
-Q1. Define Depreciation and explain its methods. (10 marks)
-Depreciation is the systematic allocation of the depreciable amount of an asset over its useful life.
-Methods include Straight Line, Written Down Value, and Units of Production.`
-  };
+Q1. Define Working Capital and explain its significance. (5 marks)
+Working capital is the difference between current assets and current liabilities.
+It measures a firm's short-term liquidity and operational efficiency.
 
-  const inp = document.getElementById('fmtInput');
-  if (inp) {
-    inp.value = samples[fmtMode] || samples.mcq;
-    const cc = document.getElementById('fmtCharCount');
-    if (cc) cc.textContent = inp.value.length.toLocaleString() + ' chars';
-    runFmt();
-  }
+Q2. Distinguish between Capital Expenditure and Revenue Expenditure. (8 marks)
+Capital expenditure: Funds spent to acquire or upgrade long-term assets.
+Revenue expenditure: Day-to-day costs to maintain operations.
+
+Section C: Financial Table
+
+| Particulars        | Amount (₹) |
+|--------------------|------------|
+| Share Capital      | 10,00,000  |
+| Reserves & Surplus |  3,50,000  |
+| Long Term Loans    |  5,00,000  |
+| Total              | 18,50,000  |`;
+
+  const inp = document.getElementById('mainInput');
+  if (inp) { inp.value = s; runConvert(); }
 }
 
 /* ════════════════════════════
    CLEAR
 ════════════════════════════ */
-function clearFmt() {
-  const inp = document.getElementById('fmtInput');
-  if (inp) { inp.value = ''; const cc = document.getElementById('fmtCharCount'); if (cc) cc.textContent = '0 chars'; }
-  clearFmtOut();
-}
-
-function clearFmtOut() {
-  const out = document.getElementById('fmtOutput');
-  if (out) out.innerHTML = '<div class="output-placeholder"><span class="ph-icon">✏️</span>Formatted content will appear here…</div>';
-  fmtPlain = '';
-  setGlobalStats(0, 0, 0, 0);
-}
-
-/* ═══════════════════════════════════════════════
-   ARIVUPRO — DUPLICATE CHECKER JS
-   js/duplicate.js
-═══════════════════════════════════════════════ */
-
-'use strict';
-
-const dupOpts = { exact: true, similar: true };
-let cleanQuestions = [];
-
-/* ════════════════════════════
-   INIT
-════════════════════════════ */
-document.addEventListener('DOMContentLoaded', () => {
-  const inp = document.getElementById('dupInput');
-  if (inp) {
-    inp.addEventListener('input', debounce(runDupCheck, 450));
-  }
-});
-
-/* ════════════════════════════
-   TOGGLE
-════════════════════════════ */
-function togDup(el, key) {
-  el.classList.toggle('on');
-  dupOpts[key] = el.classList.contains('on');
-  const inp = document.getElementById('dupInput');
-  if (inp && inp.value.trim()) runDupCheck();
-}
-
-/* ════════════════════════════
-   EXTRACT QUESTION BLOCKS
-════════════════════════════ */
-function extractQBlocks(text) {
-  const result = [];
-  let buf = [];
-
-  function flush() {
-    if (buf.length) { result.push(buf.join(' ').replace(/\s+/g, ' ').trim()); buf = []; }
-  }
-
-  text.split(/\n\s*\n/).forEach(block => {
-    block.split('\n').map(l => l.trim()).filter(Boolean).forEach(line => {
-      if (/^\d+[.)]\s/.test(line) || /^(q\.?\s*\d+|question\s*\d+)/i.test(line)) {
-        flush(); buf.push(line);
-      } else {
-        buf.push(line);
-      }
-    });
-    flush();
-  });
-  flush();
-  return result.filter(q => q.length > 8);
-}
-
-/* ════════════════════════════
-   NORMALIZE & SIMILARITY
-════════════════════════════ */
-function normStr(s) {
-  return s.toLowerCase()
-    .replace(/^\d+[.)]\s*/, '')
-    .replace(/[^a-z0-9 ]/g, ' ')
-    .replace(/\s+/g, ' ')
-    .trim();
-}
-
-function jaccardSim(a, b) {
-  const na = normStr(a), nb = normStr(b);
-  if (na === nb) return 1;
-  const sa = new Set(na.split(' ')), sb = new Set(nb.split(' '));
-  let inter = 0;
-  sa.forEach(w => { if (sb.has(w)) inter++; });
-  const union = new Set([...sa, ...sb]).size;
-  return union === 0 ? 0 : inter / union;
-}
-
-/* ════════════════════════════
-   MAIN CHECK
-════════════════════════════ */
-function runDupCheck() {
-  const raw = document.getElementById('dupInput').value.trim();
-  const out = document.getElementById('dupOutput');
-  const statRow = document.getElementById('dupStatRow');
-
-  if (!raw) {
-    if (out) out.innerHTML = `<div class="output-placeholder"><span class="ph-icon">🔍</span>Duplicate results will appear here…</div>`;
-    if (statRow) statRow.style.display = 'none';
-    return;
-  }
-
-  const qs = extractQBlocks(raw);
-  if (qs.length < 2) {
-    if (out) out.innerHTML = `<div class="output-placeholder"><span class="ph-icon">📋</span>Need at least 2 questions to check for duplicates.</div>`;
-    return;
-  }
-
-  const threshold = dupOpts.similar ? 0.70 : 1.01;
-  const used = new Set();
-  const groups = [];
-
-  for (let i = 0; i < qs.length; i++) {
-    if (used.has(i)) continue;
-    const grp = [{ i, q: qs[i], orig: true }];
-    for (let j = i + 1; j < qs.length; j++) {
-      if (used.has(j)) continue;
-      const sim = jaccardSim(qs[i], qs[j]);
-      const isExact = normStr(qs[i]) === normStr(qs[j]);
-      if ((dupOpts.exact && isExact) || (dupOpts.similar && sim >= threshold)) {
-        grp.push({ i: j, q: qs[j], orig: false, sim: Math.round(sim * 100) });
-        used.add(j);
-      }
-    }
-    if (grp.length > 1) { groups.push(grp); used.add(i); }
-  }
-
-  const uniqIdxs = [...Array(qs.length).keys()].filter(i => !used.has(i));
-  cleanQuestions = uniqIdxs.map(i => qs[i]);
-  const totalDups = groups.reduce((s, g) => s + g.length - 1, 0);
-
-  // Update stats
-  const setS = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val; };
-  setS('dTotal', qs.length);
-  setS('dDups',  totalDups);
-  setS('dUniq',  uniqIdxs.length);
-  if (statRow) statRow.style.display = 'flex';
-
-  // Render results
-  out.innerHTML = '';
-
-  if (groups.length === 0) {
-    out.innerHTML = `
-      <div class="no-dups-msg">
-        <span class="nd-icon">✅</span>
-        No duplicates found!
-        <small style="display:block;font-family:var(--font-body);font-weight:500;font-size:.82rem;color:var(--muted);margin-top:6px">All ${qs.length} questions are unique.</small>
-      </div>`;
-    document.getElementById('btnCopyClean').style.display = 'none';
-    document.getElementById('btnDlClean').style.display   = 'none';
-    return;
-  }
-
-  // Duplicate groups
-  const dh = document.createElement('div');
-  dh.className = 'dup-section-label bad';
-  dh.innerHTML = `⚠️ ${groups.length} Duplicate Group${groups.length > 1 ? 's' : ''} Found`;
-  out.appendChild(dh);
-
-  groups.forEach((grp, gi) => {
-    const wrap = document.createElement('div');
-    wrap.className = 'dup-group';
-    wrap.innerHTML = `<div class="dup-group-head">Group ${gi + 1} — ${grp.length} questions <span class="dup-pill">${grp.length - 1} dup${grp.length > 2 ? 's' : ''}</span></div>`;
-
-    grp.forEach(item => {
-      const d = document.createElement('div');
-      d.className = 'dup-item ' + (item.orig ? 'orig' : 'copy');
-      const preview = item.q.substring(0, 220) + (item.q.length > 220 ? '…' : '');
-      d.innerHTML = `<span class="dup-tag">${item.orig ? '✓ Original' : '✗ Duplicate'}</span>${escHtml(preview)}` +
-        (!item.orig && item.sim < 100 ? `<div class="sim-pct">${item.sim}% similar</div>` : '');
-      wrap.appendChild(d);
-    });
-    out.appendChild(wrap);
-  });
-
-  // Unique questions
-  if (uniqIdxs.length > 0) {
-    const uh = document.createElement('div');
-    uh.className = 'dup-section-label good';
-    uh.style.marginTop = '16px';
-    uh.innerHTML = `✅ ${uniqIdxs.length} Unique Question${uniqIdxs.length > 1 ? 's' : ''}`;
-    out.appendChild(uh);
-
-    uniqIdxs.forEach(i => {
-      const d = document.createElement('div');
-      d.className = 'uniq-item';
-      d.textContent = qs[i].substring(0, 200) + (qs[i].length > 200 ? '…' : '');
-      out.appendChild(d);
-    });
-  }
-
-  document.getElementById('btnCopyClean').style.display = '';
-  document.getElementById('btnDlClean').style.display   = '';
-}
-
-/* ════════════════════════════
-   COPY / DOWNLOAD CLEAN
-════════════════════════════ */
-function copyCleanQs() {
-  if (!cleanQuestions.length) return showToast('No unique questions found!', 'err');
-  copyText(cleanQuestions.join('\n\n'), '✓ Unique questions copied!');
-}
-
-function dlCleanQs() {
-  if (!cleanQuestions.length) return showToast('Nothing to download!', 'err');
-  dlFile(cleanQuestions.join('\n\n'), 'arivupro_unique_questions.txt');
-  showToast('⬇ Downloading clean file…', 'dl');
-}
-
-/* ════════════════════════════
-   CLEAR
-════════════════════════════ */
-function clearDup() {
-  const inp = document.getElementById('dupInput');
-  const out = document.getElementById('dupOutput');
-  const row = document.getElementById('dupStatRow');
+function clearAll() {
+  const inp = document.getElementById('mainInput');
   if (inp) inp.value = '';
-  if (out) out.innerHTML = `<div class="output-placeholder"><span class="ph-icon">🔍</span>Duplicate results will appear here…</div>`;
-  if (row) row.style.display = 'none';
-  document.getElementById('btnCopyClean').style.display = 'none';
-  document.getElementById('btnDlClean').style.display   = 'none';
-  cleanQuestions = [];
+  clearOutput();
+}
+
+function clearOutput() {
+  const prev = document.getElementById('previewContent');
+  const code = document.getElementById('codeContent');
+  const row  = document.getElementById('miniStatsRow');
+
+  if (prev) prev.innerHTML = `<div class="output-placeholder"><span class="ph-icon">🌐</span>Converted content will appear here…</div>`;
+  if (code) code.textContent = 'Converted HTML code will appear here…';
+  if (row)  row.style.display = 'none';
+
+  generatedHTML = '';
+  cleanHTML     = '';
 }
 
 </script>
